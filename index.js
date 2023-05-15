@@ -1,13 +1,14 @@
 import express from 'express';
-import config from './src/config/index.js';
 import { load } from './src/loaders/index.js';
 
 async function startServer() {
     const app = express();
     await load(app);
 
-    app.listen(config.port, () => {
-        console.log(`Server listening on port ${config.port}`);
+    const port = process.env.PORT || 3000;
+
+    app.listen(port, () => {
+        console.log(`Server is up and running on port: ${port}`);
     }).on('error', err => {
         process.exit(1);
     })
