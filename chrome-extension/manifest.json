@@ -1,0 +1,12 @@
+{
+    "manifest_version": 3,
+    "name": "Dad Jokes",
+    "version": "1.0",
+    "description": "Are you interested in dad jokes? Here's an extension for you",
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    },
+    "action": {
+        "default_icon": "icon.png"
+    }
+}
