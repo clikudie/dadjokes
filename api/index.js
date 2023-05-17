@@ -8,7 +8,7 @@ async function startServer() {
     const port = process.env.PORT || 3000;
 
     app.listen(port, () => {
-        console.log(`Server is running on port: ${port}`);
+        console.log(`Server is up and running on port: ${port}`);
     }).on('error', err => {
         process.exit(1);
     })
