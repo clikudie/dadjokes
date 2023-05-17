@@ -20,7 +20,6 @@
 on:
   push:
     branches: [ "master" ]
-    paths: ["./api/**"]
   workflow_dispatch:
 
 env:
@@ -32,7 +31,22 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      api: ${{ steps.changes.outputs.api }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          api:
+            - 'api/**' 
+
   build:
+    needs: changes
+    if: ${{ needs.changes.outputs.api == 'true' }}
     runs-on: ubuntu-latest
     defaults:
       run:
