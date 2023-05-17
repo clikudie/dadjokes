@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: api
+        working-directory: ./api
     steps:
     - uses: actions/checkout@v3
 
@@ -44,6 +44,7 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        cache-dependency-path: ./api/package-lock.json
 
     - name: npm install, build, and test
       run: |
