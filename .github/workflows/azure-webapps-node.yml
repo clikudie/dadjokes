@@ -30,12 +30,11 @@ env:
 permissions:
   contents: read
 
-defaults:
-  working-directory: api
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      working-directory: api
     steps:
     - uses: actions/checkout@v3
 
