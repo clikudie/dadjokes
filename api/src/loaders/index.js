@@ -1,7 +1,7 @@
 import { expressLoader } from "./express.js";
-import { loadJokes } from "./jokesloader.js";
+import { connectDb } from "./mongoose.js";
 
 export async function load(app) {
+    await connectDb();
     expressLoader(app);
-    await loadJokes();
 }

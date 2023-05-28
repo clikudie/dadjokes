@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { homeRoute } from "./home.js";
-import { jokesRoute } from "./jokes.js";
+import { jokesRoute } from "./joke.js";
 
 export function routes() {
     const router = Router();
