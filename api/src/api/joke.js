@@ -3,7 +3,7 @@ import { JokeService } from "../services/joke.js";
 
 const route = Router();
 
-export function jokesRoute(app) {
+export function jokeRoute(app) {
     app.use('/jokes', route);
 
     route.get('/add', async (req, res) => {
