@@ -6,11 +6,9 @@ const route = Router();
 export function jokeRoute(app) {
     app.use('/jokes', route);
 
-    route.get('/add', async (req, res) => {
-        // Validate request body. Make sure accepted is not in request
-        const jokeData = req.body;
+    route.post('/', async (req, res) => {
         const jokeService = new JokeService();
-        const addResponse = await jokeService.addJoke(jokeData);
+        const addResponse = await jokeService.addJoke(req.body);
         return res.send(addResponse);
     });
 

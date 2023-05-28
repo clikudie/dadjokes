@@ -8,13 +8,13 @@ export function expressLoader(app) {
     app.use(routes());
 
     // Not found and Error Routes
-    app.use((req, res, next) => {
+    app.use((_req, _res, next) => {
         const err = new Error('Not Found');
         err['status'] = 404;
         next(err);
     });
 
-    app.use((err, req, res, next) => {
+    app.use((err, _req, res, _next) => {
         res.status(err.status || 500);
         res.json({
             errors: {

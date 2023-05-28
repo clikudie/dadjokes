@@ -1,10 +1,21 @@
 import { JokeModel } from "../models/joke.js";
+import { addJokeValidation } from '../validators/schema-validator.js';
 
 export class JokeService {
     constructor() { }
 
     async addJoke(jokeData) {
         try {
+            const { error } = addJokeValidation.validate(jokeData);
+            if (error) {
+                return {
+                    success: false,
+                    error: error.message
+                }
+            }
+
+            // make sure accepted is set to false
+            jokeData.accepted = false;
             const createdTask = await JokeModel.create(jokeData);
             if (!createdTask) {
                 return {
@@ -29,12 +40,21 @@ export class JokeService {
 
     async getJoke() {
         try {
-            const count = await JokeModel.estimatedDocumentCount();
-            var random = Math.floor(Math.random() * count);
-            const res = await JokeModel.findOne().skip(random).exec();
+            const res = await JokeModel.aggregate([
+                { $match: { accepted: true } },
+                { $sample: { size: 1 } }
+            ]);
+
+            if (!res || !Array.isArray(res)) {
+                return {
+                    success: false,
+                    error: 'No jokes found'
+                }
+            }
+
             return {
                 success: true,
-                message: res.content
+                message: res[0].content
             }
         } catch (err) {
             console.log(err);
