@@ -6,7 +6,22 @@ on:
       - master
 
 jobs:
+  changes:
+      runs-on: ubuntu-latest
+      outputs:
+        frontend: ${{ steps.changes.outputs.frontend }}
+      steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            frontend:
+              - 'front-end/**' 
+
   build_and_deploy_job:
+    needs: changes
+    if: ${{ needs.changes.outputs.frontend == 'true' }}
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
