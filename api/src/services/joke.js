@@ -45,7 +45,7 @@ export class JokeService {
                 { $sample: { size: 1 } }
             ]);
 
-            if (!res || !Array.isArray(res)) {
+            if (!res || !Array.isArray(res) || res.length === 0) {
                 return {
                     success: false,
                     error: 'No jokes found'
