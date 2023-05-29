@@ -1,4 +1,4 @@
-name: Azure NodeJS Web App CI/CD
+name: Azure NodeJS Web App CI/CD.
 
 on:
   push:
