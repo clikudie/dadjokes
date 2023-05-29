@@ -1,3 +1,5 @@
+name: Azure NodeJS Web App CI/CD
+
 on:
   push:
     branches: [ "master" ]
