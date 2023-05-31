@@ -1,4 +1,4 @@
-import { createBrowserRouter, Link, Outlet, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import './App.css';
 import { Header } from '../Header';
 import { Home, NewJoke } from '../../routes';
