@@ -1,6 +1,8 @@
 
 export function NewJoke() {
     return (
-        <div>New Joke</div>
+        <div className="newjoke">
+            <h1>New Joke</h1>
+        </div>
     )
 }
