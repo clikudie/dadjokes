@@ -6,6 +6,6 @@ export function homeRoute(app) {
     app.use('/', route);
 
     route.get('/', (req, res) => {
-        return res.json('OK.');
+        return res.json('OK');
     });
 }

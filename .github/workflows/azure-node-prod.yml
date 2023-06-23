@@ -1,0 +1,81 @@
+name: Azure NodeJS CI/CD - Prod Environment.
+
+on:
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: dadjokesprod    # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '18.x'                # set this to the node version to use
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      api: ${{ steps.changes.outputs.api }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          api:
+            - 'api/**' 
+
+  build:
+    needs: changes
+    if: ${{ needs.changes.outputs.api == 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: ./api/package-lock.json
+
+    - name: npm install, build, and test
+      run: |
+        npm install
+        npm run build --if-present
+        npm run test --if-present
+
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: node-app
+        path: .
+
+  deploy:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: node-app
+
+    - name: 'Deploy to Azure WebApp'
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: ./api
