@@ -4,7 +4,7 @@ let cachedJoke = '';
 const defaultJoke = 'I\'m afraid for the calendar. Its days are numbered.'
 
 async function callJokesAPI() {
-    const r = await fetch('https://loljokes.azurewebsites.net/jokes');
+    const r = await fetch('https://dadjokesprod.azurewebsites.net/jokes');
     return await r.json();
 }
 
