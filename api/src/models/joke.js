@@ -1,9 +1,13 @@
 import mongoose, { model } from "mongoose";
 
 const Joke = new mongoose.Schema({
-    content: {
+    setup: {
         type: String,
         required: true,
+    },
+    punchline: {
+        type: String,
+        required: false,
     },
     accepted: {
         type: Boolean,

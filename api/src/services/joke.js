@@ -54,7 +54,11 @@ export class JokeService {
 
             return {
                 success: true,
-                message: res[0].content
+                data: {
+                    setup: res[0].setup,
+                    punchline: res[0].punchline,
+                },
+                message: 'Joke found'
             }
         } catch (err) {
             console.log(err);
