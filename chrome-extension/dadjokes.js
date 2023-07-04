@@ -1,7 +1,10 @@
-const jokeElement = document.getElementById("joke");
+const jokeSetup = document.getElementById("setup");
+const jokePunchline = document.getElementById("punchline");
 const nextButton = document.getElementById("nextBtn");
-let cachedJoke = '';
-const defaultJoke = 'I\'m afraid for the calendar. Its days are numbered.'
+let cachedJoke = {
+    setup: 'I\'m afraid for the calendar.',
+    punchline: 'Its days are numbered.'
+}
 
 async function callJokesAPI() {
     const r = await fetch('https://dadjokesprod.azurewebsites.net/jokes');
@@ -12,17 +15,20 @@ async function displayJoke() {
     try {
         const response = await callJokesAPI();
         if (response?.success) {
-            cachedJoke = response?.message;
+            cachedJoke = response?.data;
         }
-        jokeElement.innerHTML = cachedJoke;
     } catch (err) {
-        console.log(JSON.stringify(err));
-        jokeElement.innerHTML = cachedJoke ? cachedJoke : defaultJoke;
+        console.error(JSON.stringify(err));
+    } finally {
+        jokeSetup.innerHTML = cachedJoke?.setup;
+        // For jokes that are only setup, make the punchline an empty string
+        jokePunchline.innerHTML = cachedJoke?.punchline ?? '';
     }
 }
 
 async function startApp() {
-    jokeElement.innerHTML = defaultJoke;
+    jokeSetup.innerHTML = cachedJoke.setup;
+    jokePunchline.innerHTML = cachedJoke.punchline;
     await displayJoke();
 }
 
