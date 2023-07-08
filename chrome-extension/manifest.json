@@ -6,9 +6,6 @@
     "chrome_url_overrides": {
         "newtab": "index.html"
     },
-    "host_permissions": [
-        "https://dadjokesprod.azurewebsites.net/*"
-    ],
     "action": {
         "default_icon": {
             "16": "icons/icon16.png",
